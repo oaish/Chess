@@ -7,13 +7,88 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/f8c20cbfc1.js" crossorigin="anonymous"></script>
     <script src="js/jquery-3.7.1.min.js"></script>
     <script src="js/defs.js" defer></script>
-    <script src="js/main.js" defer></script>
     <script src="js/board.js" defer></script>
+    <script src="js/main.js" defer></script>
 </head>
 <body>
+    <div class="float"></div>
+    <div class="board">
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+        <div class="b"></div>
+        <div class="w"></div>
+    </div>
 
-
+    <div class="non-board">
+        <div class="fen">
+        <label>
+            <input type="text" id="fen-txt" placeholder="Enter FEN String...">
+        </label>
+        <button id="fen-btn" onclick="parseFEN($('#fen-txt').val())">Parse</button>
+    </div>
+    </div>
 </body>
 </html>
