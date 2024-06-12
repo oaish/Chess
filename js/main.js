@@ -45,8 +45,17 @@ const InitSQ120To64 = () => {
 }
 
 const init = () => {
+    const start = performance.now()
     InitFileRanksBrd()
     InitHashKeys()
     InitSQ120To64()
     parseFEN(START_FEN)
+
+    document.querySelectorAll('.board > div').forEach((sq, i) => {
+        sq.id = '_' + SQ120(i)
+        sq.addEventListener('click', () => handleSquareClick(sq))
+    })
+
+    const end = performance.now()
+    console.log('Time:', end - start)
 }

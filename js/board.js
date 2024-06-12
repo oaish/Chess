@@ -58,14 +58,6 @@ const resetBoard = () => {
     }
 }
 
-const printPieceList = () => {
-    for (let piece = P.wP; piece <= P.bK; piece++) {
-        for (let pceNum = 0; pceNum < Board.pceNum[piece]; pceNum++) {
-            console.log(PIECE_NAMES[piece], 'on', SquareBRD[Board.pList[PIECE_INDEX(piece, pceNum)]])
-        }
-    }
-}
-
 const updateListsMaterial = () => {
     let piece, sq, color;
 
@@ -86,50 +78,6 @@ const updateListsMaterial = () => {
             Board.pList[PIECE_INDEX(piece, Board.pceNum[piece])] = sq;
             Board.pceNum[piece]++;
         }
-    }
-}
-
-const printBoardToUI = (arr) => {
-    let sq = -1;
-    let i = 0;
-    let squares = $('.board').children()
-
-    for (let r = R._1; r < R.NONE; r++) {
-        for (let f = F._A; f < F.NONE; f++) {
-            sq = arr.length === 64 ? sq + 1 : FR2SQ(f, r)
-            squares[i++].innerHTML = arr[sq] !== 0 ? `<img style='width:50px; height: 50px' src="${getChessPiece(arr[sq])}" alt="" />` : ''
-        }
-    }
-}
-
-const getChessPiece = (pce) => {
-    switch (pce) {
-        case P.wP:
-            return 'https://assets-themes.chess.com/image/ejgfv/150/wp.png'
-        case P.bP:
-            return 'https://assets-themes.chess.com/image/ejgfv/150/bp.png'
-        case P.wN:
-            return 'https://assets-themes.chess.com/image/ejgfv/150/wn.png'
-        case P.bN:
-            return 'https://assets-themes.chess.com/image/ejgfv/150/bn.png'
-        case P.wB:
-            return 'https://assets-themes.chess.com/image/ejgfv/150/wb.png'
-        case P.bB:
-            return 'https://assets-themes.chess.com/image/ejgfv/150/bb.png'
-        case P.wR:
-            return 'https://assets-themes.chess.com/image/ejgfv/150/wr.png'
-        case P.bR:
-            return 'https://assets-themes.chess.com/image/ejgfv/150/br.png'
-        case P.wQ:
-            return 'https://assets-themes.chess.com/image/ejgfv/150/wq.png'
-        case P.bQ:
-            return 'https://assets-themes.chess.com/image/ejgfv/150/bq.png'
-        case P.wK:
-            return 'https://assets-themes.chess.com/image/ejgfv/150/wk.png'
-        case P.bK:
-            return 'https://assets-themes.chess.com/image/ejgfv/150/bk.png'
-        default:
-            return ''
     }
 }
 
@@ -258,4 +206,111 @@ const parseFEN = (fenStr) => {
 
     updateListsMaterial()
     printBoardToUI(Board.pieces)
+}
+
+const SqAttacked = (sq, side) => {
+    const {pieces} = Board
+
+    console.log('Piece is', PIECE_NAMES[pieces[sq]])
+
+    if (side === CLR.W) {
+        if (pieces[sq + 11] === P.wP || pieces[sq + 9] === P.wP) {
+            console.log(PIECE_NAMES[P.wP], 'is attacking')
+            return true
+        }
+    } else {
+        if (pieces[sq - 11] === P.bP || pieces[sq - 9] === P.bP) {
+            console.log(PIECE_NAMES[P.bP], 'is attacking')
+            return true
+        }
+    }
+
+    let knPos = isKnightAttacking(sq, pieces)
+    let biPos = isBishopAttacking(sq, pieces)
+    let rkPos = isRookAttacking(sq, pieces)
+    let kiPos = isKingAttacking(sq, pieces)
+
+    for (let i = 0; i < knPos.length; i++) {
+        if (side === PieceCol[knPos[i]] && PieceKnight[knPos[i]]) {
+            console.log(PIECE_NAMES[side === CLR.W ? P.wN : P.bN], 'is attacking')
+            return true
+        }
+    }
+
+    for (const pos in biPos) {
+        const bi = biPos[pos]
+        for (let i = 0; i < bi.length; i++) {
+            if (side === PieceCol[bi[i]] && PieceBishopQueen[bi[i]]) {
+                console.log(PIECE_NAMES[side === CLR.W ? P.wB : P.bB], 'or Queen', 'is attacking')
+                return true
+            } else if (bi[i] !== P.EMPTY) {
+                break
+            }
+        }
+    }
+
+    for (const pos in rkPos) {
+        const rk = rkPos[pos]
+        for (let i = 0; i < rk.length; i++) {
+            if (side === PieceCol[rk[i]] && PieceRookQueen[rk[i]]) {
+                console.log(PIECE_NAMES[side === CLR.W ? P.wR : P.bR], 'or Queen', 'is attacking')
+                return true
+            } else if (rk[i] !== P.EMPTY) {
+                break
+            }
+        }
+    }
+
+    for (let i = 0; i < kiPos.length; i++) {
+        if (side === PieceCol[kiPos[i]] && PieceKing[kiPos[i]]) {
+            console.log(PIECE_NAMES[side === CLR.W ? P.wK : P.bK], 'is attacking')
+            return true
+        }
+    }
+
+    return false
+}
+
+const generateFEN = () => {
+    const {pieces, side, castePerm, enPas} = Board;
+    let sq = 0;
+    let pce = 0;
+    let cnt = 0;
+    let fen = '';
+
+    for (let r = R._8; r >= R._1; r--) {
+        for (let f = F._A; f < F.NONE; f++) {
+            sq = FR2SQ(f, r);
+            pce = pieces[sq];
+            if (pce !== P.EMPTY) {
+                if (cnt > 0) {
+                    console.log('Count', cnt)
+                    fen += cnt
+                    cnt = 0
+                }
+                fen += getChessPieceForFEN(pce)
+            } else if (pce === P.EMPTY) {
+                cnt++
+                if (f === F._H) {
+                    fen += cnt
+                    cnt = 0
+                }
+            }
+        }
+
+        if (r !== R._1) fen += '/'
+    }
+
+    let nibble = castePerm.toString(2)
+    let castleBit = ''
+    castleBit += nibble.charAt(0) === '1'? 'K' : ''
+    castleBit += nibble.charAt(1) === '1'? 'Q' : ''
+    castleBit += nibble.charAt(2) === '1'? 'k' : ''
+    castleBit += nibble.charAt(3) === '1'? 'q' : ''
+
+    fen += ' ' + (side === '1'? 'b' : 'w')
+    fen += ' ' + (castleBit ? castleBit : '-')
+    fen += ' ' + (enPas !== SQ.NO_SQ ? '1' : '-')
+
+    return fen
 }

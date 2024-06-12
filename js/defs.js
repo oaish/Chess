@@ -1,5 +1,5 @@
 const PIECE_NAMES = ['', 'White Pawn', 'White Knight', 'White Bishop', 'White Rook', 'White Queen', 'White King',
-        'Black Pawn', 'Black Knight', 'Black Bishop', 'Black Rook', 'Black Queen', 'Black King']
+    'Black Pawn', 'Black Knight', 'Black Bishop', 'Black Rook', 'Black Queen', 'Black King']
 
 const P = {
     EMPTY: 0, wP: 1, wN: 2, wB: 3, wR: 4, wQ: 5, wK: 6,
@@ -78,36 +78,30 @@ const PIECE_INDEX = (pce, pceNum) => {
     return (pce * 10 + pceNum)
 }
 
-const printBoard = (arr) => {
-    let str = ''
-    let sq = -1
+/*
+0000 0000 0000 0000 0000 0111 1111 -> From 0x7F
+0000 0000 0000 0011 1111 1000 0000 -> To >> 7, 0x7F
+0000 0000 0011 1100 0000 0000 0000 -> Captured >> 14, 0xF
+0000 0000 0100 0000 0000 0000 0000 -> EP 0x40000
+0000 0000 1000 0000 0000 0000 0000 -> Pawn Start 0x80000
+0000 1111 0000 0000 0000 0000 0000 -> Promoted Piece >> 20, 0xF
+0001 0000 0000 0000 0000 0000 0000 -> Castle 0x1000000
+*/
 
-    for (let r = R._1; r < R.NONE; r++) {
-        str = ''
-        for (let f = F._A; f < F.NONE; f++) {
-            sq = arr.length === 64 ? sq + 1 : FR2SQ(f, r)
-            str += arr[sq] + '\t'
-        }
-        console.log(str)
-    }
-}
+const FROM_SQ = m => (m & 0x7F);
 
-const printBoardTable = (arr) => {
-    let str = '<table>'
-    let sq = -1
+const TO_SQ = m => ((m >> 7) & 0x7F);
 
-    for (let r = R._1; r < R.NONE; r++) {
-        str += '<tr>'
-        for (let f = F._A; f < F.NONE; f++) {
-            sq = arr.length === 64 ? sq + 1 : FR2SQ(f, r)
-            str += '<td style="">'
-            str += (arr[sq] !== 0 ? arr[sq] : '-')
-            str += '</td>'
-        }
-        str += '</tr>'
-    }
-    str += '</table>'
-    const float = document.querySelector('.float');
-    float.style.display = 'flex';
-    float.innerHTML += str;
-}
+const CAPTURED = m => ((m >> 14) & 0xF);
+
+const PROMOTED = m => ((m >> 20) & 0xF);
+
+let MF_EP = 0x40000;
+let MF_PS = 0x80000;
+let MF_CA = 0x100000;
+
+let MF_CAP = 0x7C000;
+let MF_PROM = 0xF00000;
+
+let NO_MOVE = 0;
+

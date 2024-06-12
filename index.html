@@ -10,85 +10,128 @@
     <script src="https://kit.fontawesome.com/f8c20cbfc1.js" crossorigin="anonymous"></script>
     <script src="js/jquery-3.7.1.min.js"></script>
     <script src="js/defs.js" defer></script>
+    <script src="js/prints.js" defer></script>
+    <script src="js/pos-helper.js" defer></script>
     <script src="js/board.js" defer></script>
+    <script src="js/move_gen.js" defer></script>
+    <script src="js/gui.js" defer></script>
     <script src="js/main.js" defer></script>
 </head>
 <body>
-    <div class="float"></div>
-    <div class="board">
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
-        <div class="b"></div>
-        <div class="w"></div>
+<div class="print-table"></div>
+<div class="float"></div>
+<div class="board" onmousemove="handleMouseMove(event)">
+    <div class="w square">
+        <div class="rank">8</div>
     </div>
+    <div class="b square"></div>
+    <div class="w square"></div>
+    <div class="b square"></div>
+    <div class="w square"></div>
+    <div class="b square"></div>
+    <div class="w square"></div>
+    <div class="b square"></div>
 
-    <div class="non-board">
+    <div class="b square">
+        <div class="rank">7</div>
+    </div>
+    <div class="w square"></div>
+    <div class="b square"></div>
+    <div class="w square"></div>
+    <div class="b square"></div>
+    <div class="w square"></div>
+    <div class="b square"></div>
+    <div class="w square"></div>
+
+    <div class="w square">
+        <div class="rank">6</div>
+    </div>
+    <div class="b square"></div>
+    <div class="w square"></div>
+    <div class="b square"></div>
+    <div class="w square"></div>
+    <div class="b square"></div>
+    <div class="w square"></div>
+    <div class="b square"></div>
+
+    <div class="b square">
+        <div class="rank">5</div>
+    </div>
+    <div class="w square"></div>
+    <div class="b square"></div>
+    <div class="w square"></div>
+    <div class="b square"></div>
+    <div class="w square"></div>
+    <div class="b square"></div>
+    <div class="w square"></div>
+
+    <div class="w square">
+        <div class="rank">4</div>
+    </div>
+    <div class="b square"></div>
+    <div class="w square"></div>
+    <div class="b square"></div>
+    <div class="w square"></div>
+    <div class="b square"></div>
+    <div class="w square"></div>
+    <div class="b square"></div>
+
+    <div class="b square">
+        <div class="rank">3</div>
+    </div>
+    <div class="w square"></div>
+    <div class="b square"></div>
+    <div class="w square"></div>
+    <div class="b square"></div>
+    <div class="w square"></div>
+    <div class="b square"></div>
+    <div class="w square"></div>
+
+    <div class="w square">
+        <div class="rank">2</div>
+    </div>
+    <div class="b square"></div>
+    <div class="w square"></div>
+    <div class="b square"></div>
+    <div class="w square"></div>
+    <div class="b square"></div>
+    <div class="w square"></div>
+    <div class="b square"></div>
+
+    <div class="b square">
+        <div class="rank">1</div>
+        <div class="file">a</div>
+    </div>
+    <div class="w square">
+        <div class="file">b</div>
+    </div>
+    <div class="b square">
+        <div class="file">c</div>
+    </div>
+    <div class="w square">
+        <div class="file">d</div>
+    </div>
+    <div class="b square">
+        <div class="file">e</div>
+    </div>
+    <div class="w square">
+        <div class="file">f</div>
+    </div>
+    <div class="b square">
+        <div class="file">g</div>
+    </div>
+    <div class="w square">
+        <div class="file">h</div>
+    </div>
+</div>
+
+<div class="non-board">
         <div class="fen">
         <label>
-            <input type="text" id="fen-txt" placeholder="Enter FEN String...">
+            <input type="text" id="fen-txt" placeholder="Enter FEN String..." value="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBKQBNR w square - -">
         </label>
         <button id="fen-btn" onclick="parseFEN($('#fen-txt').val())">Parse</button>
     </div>
-    </div>
+</div>
 </body>
 </html>
