@@ -69,6 +69,8 @@ body {
 
 .blackPce, .whitePce {
     cursor: pointer;
+    padding: 5px;
+    box-sizing: initial;
 }
 
 .rank, .file {
@@ -85,6 +87,11 @@ body {
 .file {
     bottom: 3px;
     right: 5px;
+}
+
+.file, .rank {
+    user-select: none;
+    pointer-events: none;
 }
 
 .board > .square.active:has(.blackPce) {

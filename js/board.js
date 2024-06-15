@@ -7,6 +7,8 @@ let Board = {
     moves: 0,
     enPas: 0,
     posKey: 0,
+    current: null,
+    parentDiv: null,
     moveListStart: Array(MAX_DEPTH),
     pceNum: Array(13).fill(0),
     material: Array(2).fill(0),
